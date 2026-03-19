@@ -49,7 +49,7 @@ Un parcours en construction
 Son parcours rappelle que l'entrepreneuriat reste avant tout une question d'exécution, de persévérance et de capacité à créer de la valeur réelle dans un environnement en constante évolution.""",
         "full_content": None,
         "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&h=800&fit=crop",
-        "url": "https://layout-57.preview.emergentagent.com/article/elias-benguezzou-2026",
+        "url": "https://market-intel-137.preview.emergentagent.com/article/elias-benguezzou-2026",
         "source": "Le Journal de l'Économie Numérique",
         "category": "tech",
         "publishedAt": datetime.utcnow().isoformat(),

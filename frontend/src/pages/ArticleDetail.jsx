@@ -229,25 +229,54 @@ const ArticleDetail = () => {
                 </div>
               </div>
             ) : article.content ? (
-              <div className="prose prose-lg max-w-none mb-8">
-                {/* Split content into paragraphs and format nicely */}
-                {article.content.split('\n\n').map((paragraph, index) => {
-                  // Skip empty paragraphs
-                  if (!paragraph.trim()) return null;
-                  
-                  // Check if it's a heading (starts with capital letters and is short)
-                  const isHeading = paragraph.length < 100 && /^[A-ZÀ-Ü]/.test(paragraph);
-                  
-                  return isHeading ? (
-                    <h3 key={index} className="text-2xl font-bold text-gray-900 mt-8 mb-4 border-l-4 border-[#009EE2] pl-4">
-                      {paragraph}
-                    </h3>
-                  ) : (
-                    <p key={index} className="text-gray-700 leading-relaxed mb-6 text-justify">
-                      {paragraph}
-                    </p>
-                  );
-                })}
+              <div className="prose prose-lg max-w-none mb-8 article-content">
+                <style>{`
+                  .article-content .intro {
+                    font-size: 1.125rem;
+                    line-height: 1.8;
+                    color: #374151;
+                    margin-bottom: 1.5rem;
+                  }
+                  .article-content .question {
+                    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+                    border-left: 4px solid #009EE2;
+                    padding: 1.25rem 1.5rem;
+                    margin: 2rem 0 1rem 0;
+                    border-radius: 0 8px 8px 0;
+                    font-size: 1.125rem;
+                    font-weight: 600;
+                    color: #0369a1;
+                  }
+                  .article-content .question .journalist {
+                    color: #009EE2;
+                    font-weight: 700;
+                    margin-right: 0.5rem;
+                  }
+                  .article-content .answer {
+                    font-size: 1.125rem;
+                    line-height: 1.8;
+                    color: #1f2937;
+                    margin-bottom: 1rem;
+                    padding-left: 1.5rem;
+                  }
+                  .article-content .answer em {
+                    color: #6b7280;
+                    font-style: italic;
+                  }
+                  .article-content .conclusion {
+                    background: #f9fafb;
+                    border-top: 2px solid #e5e7eb;
+                    padding: 1.5rem;
+                    margin-top: 2.5rem;
+                    border-radius: 8px;
+                    font-size: 1rem;
+                    color: #4b5563;
+                  }
+                  .article-content .conclusion em {
+                    font-style: italic;
+                  }
+                `}</style>
+                <div dangerouslySetInnerHTML={{ __html: article.content }} />
               </div>
             ) : null}
 
