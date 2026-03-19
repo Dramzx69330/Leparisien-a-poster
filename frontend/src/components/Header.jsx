@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Menu, Newspaper, User, Search } from 'lucide-react';
 import { Button } from './ui/button';
 
-const Header = ({ onMenuClick, onSearchClick }) => {
+const Header = ({ onMenuClick, onSearchClick, onLogoClick }) => {
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-[1400px] mx-auto px-4">
@@ -20,11 +20,16 @@ const Header = ({ onMenuClick, onSearchClick }) => {
 
           {/* Center - Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
-            <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Le_Parisien_-_logo_2016.png" 
-              alt="Le Parisien" 
-              className="h-12 w-auto"
-            />
+            <button 
+              onClick={onLogoClick}
+              className="block cursor-pointer hover:opacity-80 transition-opacity"
+            >
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Le_Parisien_-_logo_2016.png" 
+                alt="Le Parisien" 
+                className="h-12 w-auto"
+              />
+            </button>
           </div>
 
           {/* Right section */}

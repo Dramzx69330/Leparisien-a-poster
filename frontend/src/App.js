@@ -53,12 +53,19 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleLogoClick = () => {
+    setActiveCategory('À la une');
+    fetchArticles(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <Header 
         onMenuClick={() => setMenuOpen(true)}
         onSearchClick={() => setSearchOpen(true)}
+        onLogoClick={handleLogoClick}
       />
 
       {/* Navigation */}
