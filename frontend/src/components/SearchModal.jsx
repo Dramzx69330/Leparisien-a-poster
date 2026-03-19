@@ -4,11 +4,13 @@ import { Dialog, DialogContent, DialogHeader } from './ui/dialog';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { newsAPI } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const SearchModal = ({ isOpen, onClose }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (searchQuery.length > 2) {
@@ -35,6 +37,15 @@ const SearchModal = ({ isOpen, onClose }) => {
     } finally {
       setSearching(false);
     }
+  };
+
+  const handleArticleClick = (article) => {
+    // Store article in sessionStorage
+    sessionStorage.setItem(`article_${article.id}`, JSON.stringify(article));
+    // Close modal
+    onClose();
+    // Navigate to article detail
+    navigate(`/article/${article.id}`);
   };
 
   const handlePopularSearch = (term) => {
@@ -70,6 +81,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                 {searchResults.map((article) => (
                   <div 
                     key={article.id}
+                    onClick={() => handleArticleClick(article)}
                     className="flex gap-3 p-3 hover:bg-gray-50 rounded cursor-pointer group transition-colors"
                   >
                     {article.image && (
