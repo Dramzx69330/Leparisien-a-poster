@@ -85,3 +85,11 @@ android-sdk/ -e
 # Environment files
 *.env
 *.env.*
+
+# Data and databases  
+agenthub/agents/youtube/db
+
+# IMPORTANT: Keep articles data for GitHub!
+!backend/data/
+!backend/data/articles.json
+!backend/data/README.md
