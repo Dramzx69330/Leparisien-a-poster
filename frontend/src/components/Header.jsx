@@ -19,7 +19,7 @@ const Header = ({ onMenuClick, onSearchClick, onLogoClick }) => {
           </div>
 
           {/* Center - Logo */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
+          <div className="absolute left-1/2 transform -translate-x-1/2 mt-1 sm:mt-2">
             <button 
               onClick={onLogoClick}
               className="block cursor-pointer hover:opacity-80 transition-opacity"
@@ -30,8 +30,8 @@ const Header = ({ onMenuClick, onSearchClick, onLogoClick }) => {
                   alt="Le Parisien" 
                   className="h-8 sm:h-10 md:h-12 w-auto"
                 />
-                <span className="text-red-600 font-bold text-[10px] sm:text-xs md:text-sm mt-0.5 tracking-wide">
-                  ÉCONOMIE
+                <span className="text-red-600 font-semibold text-[6px] sm:text-[7px] md:text-[8px] mt-0 tracking-wider uppercase">
+                  Économie
                 </span>
               </div>
             </button>
