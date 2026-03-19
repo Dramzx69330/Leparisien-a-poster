@@ -237,13 +237,20 @@ const ArticleDetail = () => {
                     color: #374151;
                     margin-bottom: 1.5rem;
                   }
+                  .article-content .author {
+                    font-size: 0.95rem;
+                    color: #6b7280;
+                    margin-bottom: 2rem;
+                    padding-bottom: 1rem;
+                    border-bottom: 1px solid #e5e7eb;
+                  }
                   .article-content .question {
                     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
                     border-left: 4px solid #009EE2;
-                    padding: 1.25rem 1.5rem;
+                    padding: 1rem 1.5rem;
                     margin: 2rem 0 1rem 0;
                     border-radius: 0 8px 8px 0;
-                    font-size: 1.125rem;
+                    font-size: 1.05rem;
                     font-weight: 600;
                     color: #0369a1;
                   }
@@ -253,27 +260,38 @@ const ArticleDetail = () => {
                     margin-right: 0.5rem;
                   }
                   .article-content .answer {
-                    font-size: 1.125rem;
+                    font-size: 1.05rem;
                     line-height: 1.8;
                     color: #1f2937;
-                    margin-bottom: 1rem;
-                    padding-left: 1.5rem;
+                    margin-bottom: 0.75rem;
+                  }
+                  .article-content .answer strong {
+                    color: #111827;
+                    font-weight: 600;
                   }
                   .article-content .answer em {
                     color: #6b7280;
                     font-style: italic;
                   }
                   .article-content .conclusion {
-                    background: #f9fafb;
-                    border-top: 2px solid #e5e7eb;
-                    padding: 1.5rem;
-                    margin-top: 2.5rem;
-                    border-radius: 8px;
-                    font-size: 1rem;
-                    color: #4b5563;
-                  }
-                  .article-content .conclusion em {
+                    color: #6b7280;
+                    font-size: 0.95rem;
+                    margin-top: 2rem;
                     font-style: italic;
+                  }
+                  .article-content .about {
+                    background: #f3f4f6;
+                    padding: 1.5rem;
+                    margin-top: 2rem;
+                    border-radius: 8px;
+                    font-size: 0.95rem;
+                    color: #4b5563;
+                    line-height: 1.6;
+                  }
+                  .article-content .about strong {
+                    color: #111827;
+                    display: block;
+                    margin-bottom: 0.5rem;
                   }
                 `}</style>
                 <div dangerouslySetInnerHTML={{ __html: article.content }} />
