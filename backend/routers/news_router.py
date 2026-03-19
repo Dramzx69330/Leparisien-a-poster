@@ -57,38 +57,15 @@ async def search_news(
     pageSize: int = Query(20, ge=1, le=100, description="Number of articles per page")
 ):
     """
-    Search for news articles by keyword in database AND NewsAPI
+    Search for news articles by keyword in file storage
     """
     try:
-        from server import db
-        news_service = get_news_service()
+        from services.file_article_service import file_article_service
         
-        # Search in published articles from database
-        search_regex = {"$regex": q, "$options": "i"}
-        db_articles = await db.articles.find(
-            {
-                "is_published": True,
-                "$or": [
-                    {"title": search_regex},
-                    {"excerpt": search_regex},
-                    {"content": search_regex}
-                ]
-            },
-            {"_id": 0}
-        ).to_list(100)
+        # Search in published articles from file
+        result = file_article_service.search_articles(q)
         
-        # Search in NewsAPI
-        newsapi_result = news_service.search_articles(query=q, page=page, page_size=pageSize)
-        newsapi_articles = newsapi_result.get('articles', []) if newsapi_result.get('status') == 'ok' else []
-        
-        # Combine both sources - database articles first
-        all_articles = db_articles + newsapi_articles
-        
-        return {
-            'status': 'ok',
-            'articles': all_articles,
-            'totalResults': len(all_articles)
-        }
+        return result
     except Exception as e:
         logger.error(f"Error in search_news: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
