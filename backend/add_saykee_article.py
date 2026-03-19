@@ -93,7 +93,7 @@ C'est ça, le vrai pouvoir.
 *Et quelque part, c'est peut-être tout ce qu'il voulait nous faire comprendre.*""",
         "full_content": None,
         "image": "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=1200&h=800&fit=crop",
-        "url": "https://market-intel-137.preview.emergentagent.com/article/saykee-founder-interview-2026",
+        "url": "https://charge-preview.preview.emergentagent.com/article/saykee-founder-interview-2026",
         "source": "Forbes France",
         "category": "tech",
         "publishedAt": datetime.utcnow().isoformat(),

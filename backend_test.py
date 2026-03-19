@@ -12,7 +12,7 @@ from datetime import datetime
 from typing import Dict, Any
 
 # Get backend URL from environment
-BACKEND_URL = "https://market-intel-137.preview.emergentagent.com/api"
+BACKEND_URL = "https://charge-preview.preview.emergentagent.com/api"
 
 # Required fields for articles
 REQUIRED_ARTICLE_FIELDS = [
