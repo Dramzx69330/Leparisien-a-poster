@@ -20,9 +20,11 @@ const Header = ({ onMenuClick, onSearchClick }) => {
 
           {/* Center - Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
-            <div className="bg-[#009EE2] px-8 py-2 rounded">
-              <h1 className="text-white text-2xl font-bold tracking-wide">le Parisien</h1>
-            </div>
+            <img 
+              src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Le_Parisien_-_logo_2016.png" 
+              alt="Le Parisien" 
+              className="h-12 w-auto"
+            />
           </div>
 
           {/* Right section */}
