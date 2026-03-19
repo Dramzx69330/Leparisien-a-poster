@@ -31,6 +31,15 @@ const ArticleDetail = () => {
     }
   }, [articleId]);
 
+  const handleCategoryClick = (category) => {
+    // Navigate to homepage with selected category
+    navigate('/', { state: { category } });
+  };
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   const loadSimilarArticles = async (category) => {
     try {
       setLoadingSimilar(true);
@@ -145,9 +154,9 @@ const ArticleDetail = () => {
       <Header 
         onMenuClick={() => {}}
         onSearchClick={() => {}}
-        onLogoClick={() => navigate('/')}
+        onLogoClick={handleLogoClick}
       />
-      <Navigation activeCategory="" onCategoryChange={() => {}} />
+      <Navigation activeCategory="" onCategoryChange={handleCategoryClick} />
 
       <main className="max-w-4xl mx-auto px-4 py-8">
         {/* Bouton retour */}

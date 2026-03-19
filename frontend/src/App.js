@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
 import ArticleCard from './components/ArticleCard';
@@ -20,13 +20,20 @@ function HomePage() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     // Add smooth scroll behavior
     document.documentElement.style.scrollBehavior = 'smooth';
-    // Load initial articles
-    fetchArticles();
-  }, []);
+    // Load initial articles or from navigation state
+    const categoryFromState = location.state?.category;
+    if (categoryFromState) {
+      setActiveCategory(categoryFromState);
+      fetchArticles(categoryFromState);
+    } else {
+      fetchArticles();
+    }
+  }, [location.state]);
 
   const fetchArticles = async (categoryToFetch = null) => {
     try {
