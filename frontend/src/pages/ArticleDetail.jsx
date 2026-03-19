@@ -11,6 +11,8 @@ const ArticleDetail = () => {
   const [article, setArticle] = useState(null);
   const [copySuccess, setCopySuccess] = useState(false);
   const [loadingFullContent, setLoadingFullContent] = useState(false);
+  const [similarArticles, setSimilarArticles] = useState([]);
+  const [loadingSimilar, setLoadingSimilar] = useState(true);
 
   useEffect(() => {
     // Récupérer l'article depuis le sessionStorage
@@ -23,8 +25,36 @@ const ArticleDetail = () => {
       if (parsedArticle.url && parsedArticle.content && parsedArticle.content.length < 500) {
         loadFullContent(parsedArticle.url);
       }
+
+      // Charger les articles similaires
+      loadSimilarArticles(parsedArticle.category);
     }
   }, [articleId]);
+
+  const loadSimilarArticles = async (category) => {
+    try {
+      setLoadingSimilar(true);
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(
+        `${BACKEND_URL}/api/news/top-headlines?pageSize=4`
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.articles) {
+          // Filtrer l'article actuel et prendre 3 articles
+          const filtered = data.articles
+            .filter(a => a.id.toString() !== articleId)
+            .slice(0, 3);
+          setSimilarArticles(filtered);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading similar articles:', error);
+    } finally {
+      setLoadingSimilar(false);
+    }
+  };
 
   const loadFullContent = async (url) => {
     try {
@@ -222,9 +252,57 @@ const ArticleDetail = () => {
         {/* Section articles similaires */}
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Articles similaires</h2>
-          <div className="bg-white rounded-lg p-6 text-center text-gray-500">
-            <p>Chargement des articles similaires...</p>
-          </div>
+          {loadingSimilar ? (
+            <div className="bg-white rounded-lg p-6 text-center text-gray-500">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#009EE2] mb-3"></div>
+              <p>Chargement des articles similaires...</p>
+            </div>
+          ) : similarArticles.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {similarArticles.map((similarArticle) => (
+                <div
+                  key={similarArticle.id}
+                  onClick={() => {
+                    // Sauvegarder l'article et naviguer
+                    sessionStorage.setItem(`article_${similarArticle.id}`, JSON.stringify(similarArticle));
+                    navigate(`/article/${similarArticle.id}`);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer group"
+                >
+                  {similarArticle.image && (
+                    <div className="aspect-[16/10] overflow-hidden">
+                      <img
+                        src={similarArticle.image}
+                        alt={similarArticle.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  )}
+                  <div className="p-4">
+                    {similarArticle.source && (
+                      <span className="text-xs font-semibold text-[#009EE2]">
+                        {similarArticle.source}
+                      </span>
+                    )}
+                    <h3 className="font-bold text-gray-900 mt-2 line-clamp-3 group-hover:text-[#009EE2] transition-colors">
+                      {similarArticle.title}
+                    </h3>
+                    {similarArticle.timestamp && (
+                      <p className="text-xs text-gray-500 mt-2">{similarArticle.timestamp}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg p-6 text-center text-gray-500">
+              <p>Aucun article similaire disponible</p>
+            </div>
+          )}
         </div>
       </main>
     </div>
