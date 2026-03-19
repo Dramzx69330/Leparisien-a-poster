@@ -76,24 +76,24 @@ class NewsService:
     def get_top_headlines(self, category: Optional[str] = None, page: int = 1, page_size: int = 20) -> Dict:
         """Get top economic headlines from around the world in French"""
         # Default query for economic news in French
-        base_query = 'économie OR finance OR business OR marchés OR "marché financier"'
+        base_query = '(économie OR finance OR business OR marchés) NOT (sport OR football OR tennis OR cinéma OR musique)'
         
-        # Region and category specific queries - FRENCH ONLY
+        # Region and category specific queries - MORE SPECIFIC
         category_queries = {
-            'europe': 'économie Europe OR finance Europe OR business Europe OR BCE OR euro OR "marché européen"',
-            'amerique': 'économie États-Unis OR finance Amérique OR business USA OR Fed OR dollar OR "Wall Street"',
-            'asie': 'économie Asie OR finance Asie OR business Chine OR économie Japon OR finance Inde',
-            'afrique': 'économie Afrique OR finance Afrique OR business Afrique OR "économie africaine"',
-            'moyen-orient': 'économie Moyen-Orient OR finance Golfe OR pétrole OR OPEP OR Dubaï',
-            'marches': 'bourse OR trading OR actions OR "marchés financiers" OR CAC40 OR "marché boursier"',
-            'crypto': 'cryptomonnaie OR bitcoin OR blockchain OR ethereum OR "monnaie numérique"',
-            'tech': 'technologie business OR innovation économie OR startup OR fintech OR "économie numérique"',
-            'commerce': '"commerce international" OR export OR import OR "échanges commerciaux" OR OMC'
+            'europe': '((économie OR finance OR business) AND (Europe OR européenne OR UE OR "Union européenne" OR BCE OR Allemagne OR France OR Italie OR Espagne)) NOT (Asie OR Afrique OR Amérique OR USA)',
+            'amerique': '((économie OR finance OR business) AND (États-Unis OR Amérique OR USA OR américain OR Fed OR dollar OR "Wall Street" OR Washington)) NOT (Europe OR Asie OR Afrique)',
+            'asie': '((économie OR finance OR business) AND (Asie OR asiatique OR Chine OR chinois OR Japon OR japonais OR Inde OR Corée OR Singapour)) NOT (Europe OR Afrique OR Amérique)',
+            'afrique': '((économie OR finance OR business) AND (Afrique OR africain OR africaine)) NOT (Europe OR Asie OR Amérique)',
+            'moyen-orient': '((économie OR finance OR business) AND ("Moyen-Orient" OR Golfe OR pétrole OR OPEP OR Dubaï OR Arabie OR Iran OR Irak)) NOT (Europe OR Asie OR Afrique)',
+            'marches': '(bourse OR CAC40 OR "marché boursier" OR actions OR traders OR cotation OR "marchés financiers") NOT (crypto OR bitcoin)',
+            'crypto': '(cryptomonnaie OR bitcoin OR blockchain OR ethereum OR "monnaie numérique" OR crypto OR NFT) NOT (bourse)',
+            'tech': '((startup OR fintech OR "intelligence artificielle" OR innovation OR technologie) AND (économie OR business OR investissement)) NOT (sport OR cinéma)',
+            'commerce': '(("commerce international" OR export OR import OR "échanges commerciaux" OR OMC OR douane OR tarifs) AND (économie OR business)) NOT (crypto OR bitcoin)'
         }
         
         query = category_queries.get(category.lower() if category else '', base_query)
         
-        # FRENCH ONLY - No fallback to English
+        # FRENCH ONLY
         params = {
             'q': query,
             'language': 'fr',
