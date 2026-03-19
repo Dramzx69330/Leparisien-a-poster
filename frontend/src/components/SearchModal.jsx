@@ -106,7 +106,7 @@ const SearchModal = ({ isOpen, onClose }) => {
             <div className="space-y-4">
               <h3 className="font-semibold text-gray-900">Recherches populaires</h3>
               <div className="flex flex-wrap gap-2">
-                {['France', 'Paris', 'International', 'Économie', 'Sports', 'Culture', 'Politique'].map((term) => (
+                {['Bitcoin', 'Wall Street', 'Fed', 'BCE', 'Pétrole', 'Or', 'Trading', 'Inflation', 'Bourse'].map((term) => (
                   <Button
                     key={term}
                     variant="outline"

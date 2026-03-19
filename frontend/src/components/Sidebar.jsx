@@ -30,7 +30,7 @@ const Sidebar = () => {
       {/* En continu section */}
       <div className="bg-white rounded-lg overflow-hidden border border-gray-200">
         <div className="bg-[#009EE2] text-white px-4 py-3">
-          <h2 className="font-bold text-lg">En continu</h2>
+          <h2 className="font-bold text-lg">Actualités Économiques</h2>
         </div>
         <div className="divide-y divide-gray-200">
           {loading ? (
@@ -73,22 +73,22 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Municipales 2026 Alert */}
-      <div className="bg-blue-50 rounded-lg border border-blue-200 overflow-hidden">
+      {/* Market Alert */}
+      <div className="bg-green-50 rounded-lg border border-green-200 overflow-hidden">
         <div className="p-4">
           <div className="flex items-start gap-3">
-            <img
-              src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=100&h=100&fit=crop"
-              alt="Municipales 2026"
-              className="w-16 h-16 rounded object-cover"
-            />
+            <div className="w-16 h-16 bg-green-600 rounded flex items-center justify-center flex-shrink-0">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+            </div>
             <div className="flex-1">
-              <span className="text-xs font-semibold text-blue-600 uppercase">Municipales 2026</span>
+              <span className="text-xs font-semibold text-green-700 uppercase">Marchés en Direct</span>
               <h3 className="font-bold text-sm text-gray-900 mt-1 leading-snug">
-                S'inscrire aux alertes résultats des élections pour votre ville
+                Suivez les cours des marchés mondiaux en temps réel
               </h3>
-              <Button size="sm" variant="link" className="text-blue-600 px-0 mt-1">
-                S'inscrire
+              <Button size="sm" variant="link" className="text-green-700 px-0 mt-1 font-semibold">
+                Voir les marchés →
               </Button>
             </div>
           </div>

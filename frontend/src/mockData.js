@@ -132,17 +132,13 @@ export const sidebarArticles = [
 
 export const categories = [
   { name: "À la une", path: "/" },
-  { name: "En continu", path: "/en-continu" },
-  { name: "Paris & Île-de-France", path: "/paris", hasDropdown: true },
-  { name: "Faits divers", path: "/faits-divers" },
-  { name: "Municipales 2026", path: "/municipales-2026", hasIcon: true },
-  { name: "International", path: "/international" },
-  { name: "Économie", path: "/economie" },
-  { name: "Société", path: "/societe" },
-  { name: "Sports", path: "/sports" },
-  { name: "Culture", path: "/culture" },
-  { name: "Étudiant", path: "/etudiant" },
-  { name: "Vidéos", path: "/videos" },
-  { name: "Guide d'achat", path: "/guide-achat" },
-  { name: "Jardin", path: "/jardin" }
+  { name: "Europe", path: "/europe" },
+  { name: "Amérique", path: "/amerique" },
+  { name: "Asie", path: "/asie" },
+  { name: "Afrique", path: "/afrique" },
+  { name: "Moyen-Orient", path: "/moyen-orient" },
+  { name: "Marchés", path: "/marches" },
+  { name: "Crypto", path: "/crypto" },
+  { name: "Tech & Innovation", path: "/tech" },
+  { name: "Commerce International", path: "/commerce" }
 ];

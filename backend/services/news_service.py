@@ -29,6 +29,8 @@ class NewsService:
             response.raise_for_status()
             
             data = response.json()
+            logger.info(f"API Response status: {data.get('status')}, Total results: {data.get('totalResults')}, Articles count: {len(data.get('articles', []))}")
+            
             if data.get('status') != 'ok':
                 logger.error(f"NewsAPI error: {data.get('message')}")
                 return {'status': 'error', 'message': data.get('message'), 'articles': []}
@@ -72,28 +74,32 @@ class NewsService:
         }
 
     def get_top_headlines(self, category: Optional[str] = None, page: int = 1, page_size: int = 20) -> Dict:
-        """Get top headlines from France"""
-        # NewsAPI free tier has limited country support, so we use 'everything' with French keywords
+        """Get top economic headlines from around the world"""
+        # Default query for economic news
+        base_query = 'economy OR finance OR business OR markets'
+        
+        # Region and category specific queries
+        category_queries = {
+            'europe': 'economy Europe OR finance Europe OR business Europe OR ECB OR euro',
+            'amerique': 'economy USA OR finance America OR business Americas OR Fed OR dollar OR Wall Street',
+            'asie': 'economy Asia OR finance Asia OR business China Japan India OR yen yuan',
+            'afrique': 'economy Africa OR finance Africa OR business Africa',
+            'moyen-orient': 'economy Middle East OR finance Gulf OR oil OPEC OR Dubai',
+            'marches': 'stock market OR trading OR shares OR equity OR commodities',
+            'crypto': 'cryptocurrency OR bitcoin OR blockchain OR ethereum OR crypto',
+            'tech': 'technology business OR innovation economy OR startup OR fintech',
+            'commerce': 'international trade OR export import OR tariffs OR WTO'
+        }
+        
+        query = category_queries.get(category.lower() if category else '', base_query)
+        
         params = {
-            'q': 'France OR Paris OR actualité',
-            'language': self.default_language,
+            'q': query,
+            'language': 'en',  # Use English for better results
             'pageSize': page_size,
             'page': page,
             'sortBy': 'publishedAt'
         }
-        
-        # Map French categories to search queries
-        category_queries = {
-            'economie': 'économie OR finance OR business France',
-            'sports': 'sport OR football OR tennis France',
-            'culture': 'culture OR cinéma OR musique France',
-            'sante': 'santé OR médecine France',
-            'sciences': 'science OR technologie France',
-            'technologie': 'technologie OR tech OR innovation France'
-        }
-        
-        if category and category.lower() in category_queries:
-            params['q'] = category_queries[category.lower()]
         
         data = self._make_request('everything', params)
         
@@ -132,13 +138,13 @@ class NewsService:
         }
 
     def get_recent_news(self, page: int = 1, page_size: int = 10) -> Dict:
-        """Get most recent news for 'En continu' section"""
-        # Get news from last 24 hours
+        """Get most recent economic news for 'En continu' section"""
+        # Get economic news from last 24 hours
         from_date = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d')
         
         params = {
-            'q': 'France OR Paris',
-            'language': self.default_language,
+            'q': 'economy OR finance OR business OR markets OR trading',
+            'language': 'en',
             'from': from_date,
             'pageSize': page_size,
             'page': page,

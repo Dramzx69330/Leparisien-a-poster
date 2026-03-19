@@ -8,11 +8,11 @@ const SubscriptionBanner = ({ onClose }) => {
       <div className="max-w-[1400px] mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-              ⓘ
+            <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+              €
             </div>
             <p className="text-gray-900 font-medium">
-              <span className="font-bold">Municipales 2026 :</span> 3,99€/mois pour voter bien informé
+              <span className="font-bold">Actualités Économiques Premium :</span> Analyses exclusives et alertes marchés
             </p>
           </div>
           <div className="flex items-center gap-3">

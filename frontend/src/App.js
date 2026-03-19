@@ -31,13 +31,26 @@ function App() {
       setLoading(true);
       setError(null);
       
-      const apiCategory = getCategoryForAPI(category || activeCategory);
+      // Map category names to API query parameters
+      const categoryMap = {
+        'Europe': 'europe',
+        'Amérique': 'amerique',
+        'Asie': 'asie',
+        'Afrique': 'afrique',
+        'Moyen-Orient': 'moyen-orient',
+        'Marchés': 'marches',
+        'Crypto': 'crypto',
+        'Tech & Innovation': 'tech',
+        'Commerce International': 'commerce'
+      };
+      
+      const apiCategory = categoryMap[category || activeCategory] || null;
       const result = await newsAPI.getTopHeadlines(apiCategory, 1, 20);
       
       if (result.articles && result.articles.length > 0) {
         setArticles(result.articles);
       } else {
-        setError("Aucun article disponible pour le moment.");
+        setError("Aucun article économique disponible pour le moment.");
       }
     } catch (err) {
       console.error('Error fetching articles:', err);
