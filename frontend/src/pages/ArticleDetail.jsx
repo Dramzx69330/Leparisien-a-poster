@@ -9,6 +9,7 @@ const ArticleDetail = () => {
   const { articleId } = useParams();
   const navigate = useNavigate();
   const [article, setArticle] = useState(null);
+  const [copySuccess, setCopySuccess] = useState(false);
 
   useEffect(() => {
     // Récupérer l'article depuis le sessionStorage
@@ -17,6 +18,34 @@ const ArticleDetail = () => {
       setArticle(JSON.parse(storedArticle));
     }
   }, [articleId]);
+
+  const handleCopyLink = () => {
+    const url = window.location.href;
+    
+    // Créer un élément textarea temporaire
+    const textarea = document.createElement('textarea');
+    textarea.value = url;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    
+    try {
+      // Sélectionner et copier le texte
+      textarea.select();
+      textarea.setSelectionRange(0, 99999); // Pour mobile
+      document.execCommand('copy');
+      
+      // Afficher le message de succès
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 3000);
+    } catch (err) {
+      console.error('Erreur lors de la copie:', err);
+      alert(`Lien de l'article : ${url}`);
+    } finally {
+      // Nettoyer
+      document.body.removeChild(textarea);
+    }
+  };
 
   if (!article) {
     return (
@@ -138,15 +167,15 @@ const ArticleDetail = () => {
                 </a>
               )}
               <button
-                onClick={() => {
-                  const url = window.location.href;
-                  const message = `Lien de l'article : ${url}\n\nVous pouvez copier ce lien pour le partager.`;
-                  alert(message);
-                }}
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors ml-auto"
+                onClick={handleCopyLink}
+                className={`flex items-center gap-2 font-medium transition-colors ml-auto ${
+                  copySuccess 
+                    ? 'text-green-600 hover:text-green-700' 
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 <Share2 size={18} />
-                <span>Partager</span>
+                <span>{copySuccess ? 'Lien copié !' : 'Partager'}</span>
               </button>
             </div>
           </div>
