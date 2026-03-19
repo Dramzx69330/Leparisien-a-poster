@@ -28,7 +28,7 @@ function HomePage() {
     fetchArticles();
   }, []);
 
-  const fetchArticles = async (category = null) => {
+  const fetchArticles = async (categoryToFetch = null) => {
     try {
       setLoading(true);
       setError(null);
@@ -46,7 +46,12 @@ function HomePage() {
         'Commerce International': 'commerce'
       };
       
-      const apiCategory = categoryMap[category || activeCategory] || null;
+      // Use the category passed as parameter, not activeCategory
+      const categoryName = categoryToFetch || activeCategory;
+      const apiCategory = categoryMap[categoryName] || null;
+      
+      console.log('Fetching articles for category:', categoryName, 'API category:', apiCategory);
+      
       const result = await newsAPI.getTopHeadlines(apiCategory, 1, 20);
       
       if (result.articles && result.articles.length > 0) {
