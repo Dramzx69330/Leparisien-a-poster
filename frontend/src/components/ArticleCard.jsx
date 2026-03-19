@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Clock, Circle } from 'lucide-react';
 
 const ArticleCard = ({ article, size = 'default' }) => {
+  const navigate = useNavigate();
+
   const getCategoryStyle = (color, tag) => {
     const styles = {
       red: 'bg-red-600 text-white',
@@ -23,8 +26,18 @@ const ArticleCard = ({ article, size = 'default' }) => {
   // Handle missing images
   const imageUrl = article.image || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=600&fit=crop';
 
+  const handleClick = () => {
+    // Stocker l'article dans sessionStorage pour la page de détails
+    sessionStorage.setItem(`article_${article.id}`, JSON.stringify(article));
+    // Naviguer vers la page de détails
+    navigate(`/article/${article.id}`);
+  };
+
   return (
-    <article className={`group cursor-pointer ${sizeClasses[size]}`}>
+    <article 
+      className={`group cursor-pointer ${sizeClasses[size]}`}
+      onClick={handleClick}
+    >
       <div className="relative overflow-hidden rounded-sm">
         {/* Image */}
         <div className="relative aspect-[16/10] overflow-hidden bg-gray-200">

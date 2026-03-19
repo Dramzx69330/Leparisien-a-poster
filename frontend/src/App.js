@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
 import ArticleCard from './components/ArticleCard';
@@ -6,11 +7,12 @@ import Sidebar from './components/Sidebar';
 import SubscriptionBanner from './components/SubscriptionBanner';
 import SearchModal from './components/SearchModal';
 import MobileMenu from './components/MobileMenu';
+import ArticleDetail from './pages/ArticleDetail';
 import { newsAPI } from './services/api';
 import { getCategoryForAPI } from './utils/categoryMapper';
 import './App.css';
 
-function App() {
+function HomePage() {
   const [activeCategory, setActiveCategory] = useState('À la une');
   const [showBanner, setShowBanner] = useState(true);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -190,6 +192,15 @@ function App() {
       {/* Mobile Menu */}
       <MobileMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/article/:articleId" element={<ArticleDetail />} />
+    </Routes>
   );
 }
 

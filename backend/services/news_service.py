@@ -76,26 +76,26 @@ class NewsService:
     def get_top_headlines(self, category: Optional[str] = None, page: int = 1, page_size: int = 20) -> Dict:
         """Get top economic headlines from around the world"""
         # Default query for economic news
-        base_query = 'economy OR finance OR business OR markets'
+        base_query = 'économie OR finance OR business OR marchés'
         
         # Region and category specific queries
         category_queries = {
-            'europe': 'economy Europe OR finance Europe OR business Europe OR ECB OR euro',
-            'amerique': 'economy USA OR finance America OR business Americas OR Fed OR dollar OR Wall Street',
-            'asie': 'economy Asia OR finance Asia OR business China Japan India OR yen yuan',
-            'afrique': 'economy Africa OR finance Africa OR business Africa',
-            'moyen-orient': 'economy Middle East OR finance Gulf OR oil OPEC OR Dubai',
-            'marches': 'stock market OR trading OR shares OR equity OR commodities',
-            'crypto': 'cryptocurrency OR bitcoin OR blockchain OR ethereum OR crypto',
-            'tech': 'technology business OR innovation economy OR startup OR fintech',
-            'commerce': 'international trade OR export import OR tariffs OR WTO'
+            'europe': 'économie Europe OR finance Europe OR business Europe OR BCE OR euro',
+            'amerique': 'économie USA OR finance Amérique OR business Amérique OR Fed OR dollar OR Wall Street',
+            'asie': 'économie Asie OR finance Asie OR business Chine Japon Inde OR yen yuan',
+            'afrique': 'économie Afrique OR finance Afrique OR business Afrique',
+            'moyen-orient': 'économie Moyen-Orient OR finance Golfe OR pétrole OPEP OR Dubaï',
+            'marches': 'bourse OR trading OR actions OR marchés financiers',
+            'crypto': 'cryptomonnaie OR bitcoin OR blockchain OR ethereum OR crypto',
+            'tech': 'technologie business OR innovation économie OR startup OR fintech',
+            'commerce': 'commerce international OR export import OR tarifs OR OMC'
         }
         
         query = category_queries.get(category.lower() if category else '', base_query)
         
         params = {
             'q': query,
-            'language': 'en',  # Use English for better results
+            'language': 'fr',  # French language
             'pageSize': page_size,
             'page': page,
             'sortBy': 'publishedAt'
@@ -143,8 +143,8 @@ class NewsService:
         from_date = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d')
         
         params = {
-            'q': 'economy OR finance OR business OR markets OR trading',
-            'language': 'en',
+            'q': 'économie OR finance OR business OR marchés OR trading',
+            'language': 'fr',
             'from': from_date,
             'pageSize': page_size,
             'page': page,
