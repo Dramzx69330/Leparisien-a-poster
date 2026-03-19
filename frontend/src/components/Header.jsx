@@ -24,11 +24,16 @@ const Header = ({ onMenuClick, onSearchClick, onLogoClick }) => {
               onClick={onLogoClick}
               className="block cursor-pointer hover:opacity-80 transition-opacity"
             >
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Le_Parisien_-_logo_2016.png" 
-                alt="Le Parisien" 
-                className="h-8 sm:h-10 md:h-12 w-auto"
-              />
+              <div className="flex flex-col items-center">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Le_Parisien_-_logo_2016.png" 
+                  alt="Le Parisien" 
+                  className="h-8 sm:h-10 md:h-12 w-auto"
+                />
+                <span className="text-red-600 font-bold text-xs sm:text-sm md:text-base mt-0.5 sm:mt-1 tracking-wide">
+                  ÉCONOMIE
+                </span>
+              </div>
             </button>
           </div>
 
