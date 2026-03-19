@@ -10,6 +10,8 @@ from typing import List
 import uuid
 from datetime import datetime, timezone
 from routers import news_router
+from routers import articles_router
+from services.auto_publisher import start_auto_publisher, stop_auto_publisher
 
 
 ROOT_DIR = Path(__file__).parent
@@ -69,6 +71,7 @@ async def get_status_checks():
 
 # Include the routers in the main app
 api_router.include_router(news_router.router)
+api_router.include_router(articles_router.router)
 app.include_router(api_router)
 
 app.add_middleware(
@@ -86,6 +89,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+@app.on_event("startup")
+async def startup_event():
+    """Start auto-publisher on application startup"""
+    logger.info("Starting application...")
+    await start_auto_publisher(db)
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
+    """Stop auto-publisher and close database connection"""
+    await stop_auto_publisher()
     client.close()
