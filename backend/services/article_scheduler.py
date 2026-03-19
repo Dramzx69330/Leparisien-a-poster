@@ -140,6 +140,15 @@ class ArticleScheduler:
             
             total = await self.articles_collection.count_documents(query)
             
+            # Convert MongoDB documents to JSON-serializable format
+            for article in articles:
+                if '_id' in article:
+                    article['_id'] = str(article['_id'])
+                # Convert datetime objects to ISO format strings
+                for field in ['created_at', 'updated_at', 'actual_published_at', 'scheduled_publish_at']:
+                    if field in article and article[field]:
+                        article[field] = article[field].isoformat() if hasattr(article[field], 'isoformat') else str(article[field])
+            
             return articles, total
             
         except Exception as e:

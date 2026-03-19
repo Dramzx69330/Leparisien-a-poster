@@ -59,7 +59,14 @@ function HomePage() {
       
       console.log('Fetching articles for category:', categoryName, 'API category:', apiCategory);
       
-      const result = await newsAPI.getTopHeadlines(apiCategory, 1, 20);
+      // Try to get published articles from database first
+      let result = await newsAPI.getPublishedArticles(apiCategory, 1, 20);
+      
+      // If no published articles, fallback to NewsAPI
+      if (!result.articles || result.articles.length === 0) {
+        console.log('No published articles, fetching from NewsAPI...');
+        result = await newsAPI.getTopHeadlines(apiCategory, 1, 20);
+      }
       
       if (result.articles && result.articles.length > 0) {
         setArticles(result.articles);
