@@ -56,7 +56,7 @@ class ArticleScheduler:
         return saved_count
     
     async def schedule_next_publication(self):
-        """Schedule the next unpublished article for publication in 1 hour"""
+        """Schedule the next unpublished article for publication in 2 hours"""
         try:
             # Find next unpublished article
             next_article = await self.articles_collection.find_one(
@@ -68,8 +68,8 @@ class ArticleScheduler:
                 logger.warning("No unpublished articles available")
                 return None
             
-            # Schedule for 1 hour from now
-            publish_time = datetime.utcnow() + timedelta(hours=1)
+            # Schedule for 2 hours from now
+            publish_time = datetime.utcnow() + timedelta(hours=2)
             
             await self.articles_collection.update_one(
                 {"_id": next_article["_id"]},

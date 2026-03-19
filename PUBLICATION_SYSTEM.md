@@ -1,7 +1,7 @@
 # Système de Publication Automatique d'Articles
 
 ## Vue d'ensemble
-Le système sauvegarde les articles dans MongoDB et les publie automatiquement à raison de **1 article par heure**.
+Le système sauvegarde les articles dans MongoDB et les publie automatiquement à raison de **1 article toutes les 2 heures**.
 
 ## Architecture
 
@@ -21,7 +21,7 @@ Le système sauvegarde les articles dans MongoDB et les publie automatiquement �
    - Récupère les articles publiés
 
 2. **AutoPublisher** (`/backend/services/auto_publisher.py`)
-   - Tâche de fond qui s'exécute toutes les heures
+   - Tâche de fond qui s'exécute toutes les 2 heures
    - Publie les articles programmés
    - Programme automatiquement le prochain article
 
@@ -43,7 +43,7 @@ curl "http://localhost:8001/api/articles/published?category=crypto&page=1&pageSi
 ```
 
 ### POST /api/articles/schedule-next
-Programme manuellement le prochain article pour publication dans 1 heure.
+Programme manuellement le prochain article pour publication dans 2 heures.
 ```bash
 curl -X POST "http://localhost:8001/api/articles/schedule-next"
 ```
@@ -72,7 +72,7 @@ curl "http://localhost:8001/api/articles/stats"
    ```
 
 2. **Publication automatique**
-   - Le système publie automatiquement 1 article par heure
+   - Le système publie automatiquement 1 article toutes les 2 heures
    - Les articles sont publiés dans l'ordre d'ajout (FIFO)
    - Pas de suppression automatique
 
@@ -85,7 +85,7 @@ curl "http://localhost:8001/api/articles/stats"
 ## Fonctionnalités
 
 ✅ **Sauvegarde permanente**: Les articles ne sont jamais supprimés
-✅ **Publication automatique**: 1 article par heure
+✅ **Publication automatique**: 1 article toutes les 2 heures
 ✅ **Multi-catégories**: Supporte toutes les catégories (Crypto, Europe, Asie, etc.)
 ✅ **Programmation**: Articles programmés à l'avance
 ✅ **Statistiques**: Suivi en temps réel du nombre d'articles
@@ -103,11 +103,12 @@ curl -X POST "http://localhost:8001/api/articles/fetch-and-save?category=tech&co
 ### Modifier la fréquence de publication
 Dans `/backend/services/auto_publisher.py`, ligne 8:
 ```python
-def __init__(self, db, interval_seconds=3600):  # 3600 = 1 heure
+def __init__(self, db, interval_seconds=7200):  # 7200 = 2 heures
 ```
 
+Pour publier toutes les heures: `interval_seconds=3600`
 Pour publier toutes les 30 minutes: `interval_seconds=1800`
-Pour publier toutes les 2 heures: `interval_seconds=7200`
+Pour publier toutes les 3 heures: `interval_seconds=10800`
 
 ## Notes importantes
 

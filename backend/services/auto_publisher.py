@@ -6,7 +6,7 @@ from services.article_scheduler import ArticleScheduler
 logger = logging.getLogger(__name__)
 
 class AutoPublisher:
-    def __init__(self, db, interval_seconds=3600):  # 3600 seconds = 1 hour
+    def __init__(self, db, interval_seconds=7200):  # 7200 seconds = 2 hours
         self.db = db
         self.scheduler = ArticleScheduler(db)
         self.interval_seconds = interval_seconds
@@ -50,7 +50,7 @@ auto_publisher = None
 async def start_auto_publisher(db):
     """Initialize and start the auto-publisher"""
     global auto_publisher
-    auto_publisher = AutoPublisher(db, interval_seconds=3600)  # 1 hour
+    auto_publisher = AutoPublisher(db, interval_seconds=7200)  # 2 hours
     asyncio.create_task(auto_publisher.start())
     logger.info("Auto-publisher initialized and started")
 
