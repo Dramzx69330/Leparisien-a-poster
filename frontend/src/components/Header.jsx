@@ -30,7 +30,7 @@ const Header = ({ onMenuClick, onSearchClick, onLogoClick }) => {
                   alt="Le Parisien" 
                   className="h-8 sm:h-10 md:h-12 w-auto"
                 />
-                <span className="text-red-600 font-bold text-xs sm:text-sm md:text-base mt-0.5 sm:mt-1 tracking-wide">
+                <span className="text-red-600 font-bold text-[10px] sm:text-xs md:text-sm mt-0.5 tracking-wide">
                   ÉCONOMIE
                 </span>
               </div>
