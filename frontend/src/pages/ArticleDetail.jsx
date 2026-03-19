@@ -10,14 +10,47 @@ const ArticleDetail = () => {
   const navigate = useNavigate();
   const [article, setArticle] = useState(null);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [loadingFullContent, setLoadingFullContent] = useState(false);
 
   useEffect(() => {
     // Récupérer l'article depuis le sessionStorage
     const storedArticle = sessionStorage.getItem(`article_${articleId}`);
     if (storedArticle) {
-      setArticle(JSON.parse(storedArticle));
+      const parsedArticle = JSON.parse(storedArticle);
+      setArticle(parsedArticle);
+      
+      // Charger le contenu complet si l'article a une URL
+      if (parsedArticle.url && parsedArticle.content && parsedArticle.content.length < 500) {
+        loadFullContent(parsedArticle.url);
+      }
     }
   }, [articleId]);
+
+  const loadFullContent = async (url) => {
+    try {
+      setLoadingFullContent(true);
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(
+        `${BACKEND_URL}/api/news/scrape-article?article_url=${encodeURIComponent(url)}`,
+        { method: 'POST' }
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.content) {
+          setArticle(prev => ({
+            ...prev,
+            content: data.content,
+            fullContentLoaded: true
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Error loading full content:', error);
+    } finally {
+      setLoadingFullContent(false);
+    }
+  };
 
   const handleCopyLink = () => {
     const url = window.location.href;
@@ -145,30 +178,35 @@ const ArticleDetail = () => {
             )}
 
             {/* Contenu */}
-            {article.content && (
+            {loadingFullContent ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#009EE2] mb-3"></div>
+                  <p className="text-gray-600">Chargement du contenu complet...</p>
+                </div>
+              </div>
+            ) : article.content ? (
               <div className="prose prose-lg max-w-none mb-8">
-                <p className="text-gray-800 leading-relaxed whitespace-pre-line">
+                <p className="text-gray-800 leading-relaxed whitespace-pre-line text-justify">
                   {article.content}
+                </p>
+              </div>
+            ) : null}
+
+            {/* Note sur l'extrait */}
+            {article.fullContentLoaded && (
+              <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-8">
+                <p className="text-sm text-green-800">
+                  <strong>✓ Contenu complet chargé</strong> depuis {article.source}
                 </p>
               </div>
             )}
 
             {/* Actions */}
-            <div className="flex items-center gap-4 pt-6 border-t border-gray-200">
-              {article.url && (
-                <a
-                  href={article.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-[#009EE2] hover:text-[#0088CC] font-medium transition-colors"
-                >
-                  <ExternalLink size={18} />
-                  <span>Lire l'article complet sur {article.source}</span>
-                </a>
-              )}
+            <div className="flex items-center justify-between pt-6 border-t border-gray-200">
               <button
                 onClick={handleCopyLink}
-                className={`flex items-center gap-2 font-medium transition-colors ml-auto ${
+                className={`flex items-center gap-2 font-medium transition-colors ${
                   copySuccess 
                     ? 'text-green-600 hover:text-green-700' 
                     : 'text-gray-600 hover:text-gray-900'
