@@ -59,21 +59,13 @@ function HomePage() {
       
       console.log('Fetching articles for category:', categoryName, 'API category:', apiCategory);
       
-      // Get both published articles from database AND NewsAPI articles
-      const publishedResult = await newsAPI.getPublishedArticles(apiCategory, 1, 20);
-      const newsAPIResult = await newsAPI.getTopHeadlines(apiCategory, 1, 20);
+      // Get ONLY published articles from database (full content guaranteed)
+      let result = await newsAPI.getPublishedArticles(apiCategory, 1, 50);
       
-      // Combine both sources - published articles first, then NewsAPI
-      const publishedArticles = publishedResult.articles || [];
-      const newsArticles = newsAPIResult.articles || [];
-      
-      // Merge arrays - published articles appear first
-      const allArticles = [...publishedArticles, ...newsArticles];
-      
-      if (allArticles.length > 0) {
-        setArticles(allArticles);
+      if (result.articles && result.articles.length > 0) {
+        setArticles(result.articles);
       } else {
-        setError("Aucun article économique disponible pour le moment.");
+        setError("Aucun article disponible pour le moment. Les articles seront publiés progressivement.");
       }
     } catch (err) {
       console.error('Error fetching articles:', err);
