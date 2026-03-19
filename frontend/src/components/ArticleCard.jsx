@@ -72,12 +72,12 @@ const ArticleCard = ({ article, size = 'default' }) => {
             </div>
           )}
           <h3 className={`font-bold text-gray-900 group-hover:text-[#009EE2] transition-colors line-clamp-3 ${
-            size === 'large' ? 'text-2xl leading-tight' : 'text-lg leading-snug'
+            size === 'large' ? 'text-xl sm:text-2xl leading-tight' : 'text-base sm:text-lg leading-snug'
           }`}>
             {article.title}
           </h3>
           {article.excerpt && size === 'large' && (
-            <p className="mt-2 text-gray-600 text-base line-clamp-2">
+            <p className="mt-2 text-gray-600 text-sm sm:text-base line-clamp-2">
               {article.excerpt}
             </p>
           )}

@@ -124,10 +124,10 @@ function HomePage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {/* Articles Grid */}
             <div className="lg:col-span-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {/* Featured Article */}
                 {articles[0] && (
                   <div className="md:col-span-2">
@@ -137,16 +137,16 @@ function HomePage() {
 
                 {/* Related articles below featured */}
                 {articles.length > 2 && (
-                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 py-4 border-y border-gray-200">
+                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 py-3 sm:py-4 border-y border-gray-200">
                     {articles.slice(1, 3).map((article) => (
-                      <div key={article.id} className="flex gap-3 hover:bg-white p-3 rounded transition-colors cursor-pointer group">
-                        <div className="flex-1">
+                      <div key={article.id} className="flex gap-2 sm:gap-3 hover:bg-white p-2 sm:p-3 rounded transition-colors cursor-pointer group">
+                        <div className="flex-1 min-w-0">
                           {article.source && (
-                            <span className="inline-block px-2 py-0.5 rounded text-xs font-bold mb-2 bg-gray-100 text-gray-800">
+                            <span className="inline-block px-2 py-0.5 rounded text-xs font-bold mb-1 sm:mb-2 bg-gray-100 text-gray-800">
                               {article.source}
                             </span>
                           )}
-                          <h3 className="font-bold text-sm text-gray-900 group-hover:text-[#009EE2] transition-colors line-clamp-3">
+                          <h3 className="font-bold text-sm sm:text-base text-gray-900 group-hover:text-[#009EE2] transition-colors line-clamp-3">
                             {article.title}
                           </h3>
                         </div>
@@ -154,7 +154,7 @@ function HomePage() {
                           <img 
                             src={article.image} 
                             alt="" 
-                            className="w-24 h-24 object-cover rounded flex-shrink-0"
+                            className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded flex-shrink-0"
                             onError={(e) => {
                               e.target.style.display = 'none';
                             }}
@@ -173,10 +173,10 @@ function HomePage() {
 
               {/* Load More */}
               {articles.length >= 10 && (
-                <div className="mt-8 text-center">
+                <div className="mt-6 sm:mt-8 text-center">
                   <button 
                     onClick={() => fetchArticles()}
-                    className="px-8 py-3 bg-white border-2 border-gray-300 rounded font-semibold text-gray-700 hover:border-[#009EE2] hover:text-[#009EE2] transition-all"
+                    className="px-6 sm:px-8 py-2 sm:py-3 bg-white border-2 border-gray-300 rounded font-semibold text-sm sm:text-base text-gray-700 hover:border-[#009EE2] hover:text-[#009EE2] transition-all"
                   >
                     Voir plus d'articles
                   </button>
@@ -184,8 +184,8 @@ function HomePage() {
               )}
             </div>
 
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
+            {/* Sidebar - hidden on mobile, visible on desktop */}
+            <div className="hidden lg:block lg:col-span-1">
               <div className="sticky top-32">
                 <Sidebar />
               </div>

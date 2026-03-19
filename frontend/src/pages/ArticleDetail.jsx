@@ -163,14 +163,14 @@ const ArticleDetail = () => {
       />
       <Navigation activeCategory="" onCategoryChange={handleCategoryClick} />
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Bouton retour */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-gray-600 hover:text-[#009EE2] transition-colors mb-6"
+          className="flex items-center gap-2 text-gray-600 hover:text-[#009EE2] transition-colors mb-4 sm:mb-6 p-2"
         >
           <ArrowLeft size={20} />
-          <span className="font-medium">Retour</span>
+          <span className="font-medium text-sm sm:text-base">Retour</span>
         </button>
 
         {/* Article */}
@@ -189,37 +189,37 @@ const ArticleDetail = () => {
             </div>
           )}
 
-          <div className="p-8">
+          <div className="p-4 sm:p-6 md:p-8">
             {/* Métadonnées */}
-            <div className="flex items-center gap-4 text-sm mb-6 pb-4 border-b border-gray-100">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-gray-100">
               {article.source && (
-                <span className="inline-flex items-center px-3 py-1 bg-[#009EE2] text-white font-semibold rounded-full">
+                <span className="inline-flex items-center px-2 sm:px-3 py-1 bg-[#009EE2] text-white font-semibold rounded-full text-xs">
                   {article.source}
                 </span>
               )}
               {article.publishedAt && (
-                <div className="flex items-center gap-1.5 text-gray-600">
-                  <Calendar size={16} />
-                  <span>{formatDate(article.publishedAt)}</span>
+                <div className="flex items-center gap-1 sm:gap-1.5 text-gray-600">
+                  <Calendar size={14} className="sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-sm">{formatDate(article.publishedAt)}</span>
                 </div>
               )}
               {article.readTime && (
-                <div className="flex items-center gap-1.5 text-gray-600">
-                  <Clock size={16} />
-                  <span>{article.readTime} de lecture</span>
+                <div className="flex items-center gap-1 sm:gap-1.5 text-gray-600">
+                  <Clock size={14} className="sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-sm">{article.readTime} de lecture</span>
                 </div>
               )}
             </div>
 
             {/* Titre */}
-            <h1 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
               {article.title}
             </h1>
 
             {/* Extrait avec style */}
             {article.excerpt && (
-              <div className="bg-gray-50 border-l-4 border-[#009EE2] p-6 rounded-r-lg mb-8">
-                <p className="text-xl text-gray-700 leading-relaxed italic">
+              <div className="bg-gray-50 border-l-4 border-[#009EE2] p-4 sm:p-6 rounded-r-lg mb-6 sm:mb-8">
+                <p className="text-base sm:text-xl text-gray-700 leading-relaxed italic">
                   {article.excerpt}
                 </p>
               </div>
@@ -227,37 +227,55 @@ const ArticleDetail = () => {
 
             {/* Contenu */}
             {loadingFullContent ? (
-              <div className="flex items-center justify-center py-12">
+              <div className="flex items-center justify-center py-8 sm:py-12">
                 <div className="text-center">
                   <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#009EE2] mb-3"></div>
-                  <p className="text-gray-600">Chargement du contenu complet...</p>
+                  <p className="text-gray-600 text-sm sm:text-base">Chargement du contenu complet...</p>
                 </div>
               </div>
             ) : article.content ? (
-              <div className="prose prose-lg max-w-none mb-8 article-content">
+              <div className="prose prose-sm sm:prose-lg max-w-none mb-6 sm:mb-8 article-content">
                 <style>{`
                   .article-content .intro {
-                    font-size: 1.125rem;
+                    font-size: 1rem;
                     line-height: 1.8;
                     color: #374151;
                     margin-bottom: 1.5rem;
                   }
+                  @media (min-width: 640px) {
+                    .article-content .intro {
+                      font-size: 1.125rem;
+                    }
+                  }
                   .article-content .author {
-                    font-size: 0.95rem;
+                    font-size: 0.875rem;
                     color: #6b7280;
-                    margin-bottom: 2rem;
+                    margin-bottom: 1.5rem;
                     padding-bottom: 1rem;
                     border-bottom: 1px solid #e5e7eb;
+                  }
+                  @media (min-width: 640px) {
+                    .article-content .author {
+                      font-size: 0.95rem;
+                      margin-bottom: 2rem;
+                    }
                   }
                   .article-content .question {
                     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
                     border-left: 4px solid #009EE2;
-                    padding: 1rem 1.5rem;
-                    margin: 2rem 0 1rem 0;
+                    padding: 0.75rem 1rem;
+                    margin: 1.5rem 0 0.75rem 0;
                     border-radius: 0 8px 8px 0;
-                    font-size: 1.05rem;
+                    font-size: 0.95rem;
                     font-weight: 600;
                     color: #0369a1;
+                  }
+                  @media (min-width: 640px) {
+                    .article-content .question {
+                      padding: 1rem 1.5rem;
+                      margin: 2rem 0 1rem 0;
+                      font-size: 1.05rem;
+                    }
                   }
                   .article-content .question .journalist {
                     color: #009EE2;
@@ -265,10 +283,16 @@ const ArticleDetail = () => {
                     margin-right: 0.5rem;
                   }
                   .article-content .answer {
-                    font-size: 1.05rem;
-                    line-height: 1.8;
+                    font-size: 0.95rem;
+                    line-height: 1.7;
                     color: #1f2937;
                     margin-bottom: 0.75rem;
+                  }
+                  @media (min-width: 640px) {
+                    .article-content .answer {
+                      font-size: 1.05rem;
+                      line-height: 1.8;
+                    }
                   }
                   .article-content .answer strong {
                     color: #111827;
