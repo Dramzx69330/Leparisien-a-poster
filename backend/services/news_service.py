@@ -74,26 +74,26 @@ class NewsService:
         }
 
     def get_top_headlines(self, category: Optional[str] = None, page: int = 1, page_size: int = 20) -> Dict:
-        """Get top economic headlines from around the world"""
-        # Default query for economic news (French + English for better coverage)
-        base_query = 'économie OR finance OR business OR markets OR economy'
+        """Get top economic headlines from around the world in French"""
+        # Default query for economic news in French
+        base_query = 'économie OR finance OR business OR marchés OR "marché financier"'
         
-        # Region and category specific queries (bilingual for better results)
+        # Region and category specific queries - FRENCH ONLY
         category_queries = {
-            'europe': '(économie OR economy) (Europe OR européenne) OR (finance OR business) Europe OR BCE OR ECB OR euro',
-            'amerique': '(économie OR economy) (USA OR Amérique OR America) OR (finance OR business) (USA OR Americas) OR Fed OR dollar OR "Wall Street"',
-            'asie': '(économie OR economy) (Asie OR Asia OR Chine OR China OR Japon OR Japan OR Inde OR India) OR (finance OR business) Asia',
-            'afrique': '(économie OR economy) (Afrique OR Africa) OR (finance OR business) Africa',
-            'moyen-orient': '(économie OR economy) ("Moyen-Orient" OR "Middle East") OR (finance OR business) Gulf OR pétrole OR oil OR OPEC OR Dubai',
-            'marches': 'bourse OR "stock market" OR trading OR actions OR shares OR "marchés financiers"',
-            'crypto': 'cryptomonnaie OR cryptocurrency OR bitcoin OR blockchain OR ethereum OR crypto',
-            'tech': '(technologie OR technology) (business OR économie) OR innovation OR startup OR fintech',
-            'commerce': '"commerce international" OR "international trade" OR export OR import OR tarifs OR tariffs OR OMC OR WTO'
+            'europe': 'économie Europe OR finance Europe OR business Europe OR BCE OR euro OR "marché européen"',
+            'amerique': 'économie États-Unis OR finance Amérique OR business USA OR Fed OR dollar OR "Wall Street"',
+            'asie': 'économie Asie OR finance Asie OR business Chine OR économie Japon OR finance Inde',
+            'afrique': 'économie Afrique OR finance Afrique OR business Afrique OR "économie africaine"',
+            'moyen-orient': 'économie Moyen-Orient OR finance Golfe OR pétrole OR OPEP OR Dubaï',
+            'marches': 'bourse OR trading OR actions OR "marchés financiers" OR CAC40 OR "marché boursier"',
+            'crypto': 'cryptomonnaie OR bitcoin OR blockchain OR ethereum OR "monnaie numérique"',
+            'tech': 'technologie business OR innovation économie OR startup OR fintech OR "économie numérique"',
+            'commerce': '"commerce international" OR export OR import OR "échanges commerciaux" OR OMC'
         }
         
         query = category_queries.get(category.lower() if category else '', base_query)
         
-        # Try French first
+        # FRENCH ONLY - No fallback to English
         params = {
             'q': query,
             'language': 'fr',
@@ -103,18 +103,6 @@ class NewsService:
         }
         
         data = self._make_request('everything', params)
-        
-        # If not enough French articles, try English
-        if data.get('status') == 'ok' and data.get('totalResults', 0) < 5:
-            logger.info(f"Not enough French articles ({data.get('totalResults')}), trying English...")
-            params['language'] = 'en'
-            data_en = self._make_request('everything', params)
-            
-            if data_en.get('status') == 'ok':
-                # Mix French and English results
-                all_articles = data.get('articles', []) + data_en.get('articles', [])
-                data['articles'] = all_articles[:page_size]
-                data['totalResults'] = data.get('totalResults', 0) + data_en.get('totalResults', 0)
         
         if data.get('status') == 'error':
             return data
