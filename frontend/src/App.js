@@ -59,17 +59,19 @@ function HomePage() {
       
       console.log('Fetching articles for category:', categoryName, 'API category:', apiCategory);
       
-      // Try to get published articles from database first
-      let result = await newsAPI.getPublishedArticles(apiCategory, 1, 20);
+      // Get both published articles from database AND NewsAPI articles
+      const publishedResult = await newsAPI.getPublishedArticles(apiCategory, 1, 20);
+      const newsAPIResult = await newsAPI.getTopHeadlines(apiCategory, 1, 20);
       
-      // If no published articles, fallback to NewsAPI
-      if (!result.articles || result.articles.length === 0) {
-        console.log('No published articles, fetching from NewsAPI...');
-        result = await newsAPI.getTopHeadlines(apiCategory, 1, 20);
-      }
+      // Combine both sources - published articles first, then NewsAPI
+      const publishedArticles = publishedResult.articles || [];
+      const newsArticles = newsAPIResult.articles || [];
       
-      if (result.articles && result.articles.length > 0) {
-        setArticles(result.articles);
+      // Merge arrays - published articles appear first
+      const allArticles = [...publishedArticles, ...newsArticles];
+      
+      if (allArticles.length > 0) {
+        setArticles(allArticles);
       } else {
         setError("Aucun article économique disponible pour le moment.");
       }
