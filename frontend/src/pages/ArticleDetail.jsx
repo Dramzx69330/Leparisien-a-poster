@@ -177,18 +177,20 @@ const ArticleDetail = () => {
 
           <div className="p-8">
             {/* Métadonnées */}
-            <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+            <div className="flex items-center gap-4 text-sm mb-6 pb-4 border-b border-gray-100">
               {article.source && (
-                <span className="font-semibold text-[#009EE2]">{article.source}</span>
+                <span className="inline-flex items-center px-3 py-1 bg-[#009EE2] text-white font-semibold rounded-full">
+                  {article.source}
+                </span>
               )}
               {article.publishedAt && (
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5 text-gray-600">
                   <Calendar size={16} />
                   <span>{formatDate(article.publishedAt)}</span>
                 </div>
               )}
               {article.readTime && (
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5 text-gray-600">
                   <Clock size={16} />
                   <span>{article.readTime} de lecture</span>
                 </div>
@@ -200,11 +202,13 @@ const ArticleDetail = () => {
               {article.title}
             </h1>
 
-            {/* Extrait */}
+            {/* Extrait avec style */}
             {article.excerpt && (
-              <p className="text-xl text-gray-700 mb-8 leading-relaxed">
-                {article.excerpt}
-              </p>
+              <div className="bg-gray-50 border-l-4 border-[#009EE2] p-6 rounded-r-lg mb-8">
+                <p className="text-xl text-gray-700 leading-relaxed italic">
+                  {article.excerpt}
+                </p>
+              </div>
             )}
 
             {/* Contenu */}
@@ -217,33 +221,69 @@ const ArticleDetail = () => {
               </div>
             ) : article.content ? (
               <div className="prose prose-lg max-w-none mb-8">
-                <p className="text-gray-800 leading-relaxed whitespace-pre-line text-justify">
-                  {article.content}
-                </p>
+                {/* Split content into paragraphs and format nicely */}
+                {article.content.split('\n\n').map((paragraph, index) => {
+                  // Skip empty paragraphs
+                  if (!paragraph.trim()) return null;
+                  
+                  // Check if it's a heading (starts with capital letters and is short)
+                  const isHeading = paragraph.length < 100 && /^[A-ZÀ-Ü]/.test(paragraph);
+                  
+                  return isHeading ? (
+                    <h3 key={index} className="text-2xl font-bold text-gray-900 mt-8 mb-4 border-l-4 border-[#009EE2] pl-4">
+                      {paragraph}
+                    </h3>
+                  ) : (
+                    <p key={index} className="text-gray-700 leading-relaxed mb-6 text-justify">
+                      {paragraph}
+                    </p>
+                  );
+                })}
               </div>
             ) : null}
 
             {/* Note sur l'extrait */}
             {article.fullContentLoaded && (
-              <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-8">
-                <p className="text-sm text-green-800">
-                  <strong>✓ Contenu complet chargé</strong> depuis {article.source}
-                </p>
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 p-5 mb-8 rounded-r-lg shadow-sm">
+                <div className="flex items-start gap-3">
+                  <svg className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div>
+                    <p className="text-sm font-semibold text-green-800">
+                      Contenu complet chargé
+                    </p>
+                    <p className="text-xs text-green-700 mt-1">
+                      Article intégral provenant de {article.source}
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
 
             {/* Actions */}
-            <div className="flex items-center justify-between pt-6 border-t border-gray-200">
+            <div className="flex items-center justify-between pt-6 border-t-2 border-gray-100 mt-8">
               <button
                 onClick={handleCopyLink}
-                className={`flex items-center gap-2 font-medium transition-colors ${
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-medium transition-all shadow-sm ${
                   copySuccess 
-                    ? 'text-green-600 hover:text-green-700' 
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'bg-green-500 text-white hover:bg-green-600' 
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                <Share2 size={18} />
-                <span>{copySuccess ? 'Lien copié !' : 'Partager'}</span>
+                {copySuccess ? (
+                  <>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Lien copié !</span>
+                  </>
+                ) : (
+                  <>
+                    <Share2 size={18} />
+                    <span>Partager l'article</span>
+                  </>
+                )}
               </button>
             </div>
           </div>
