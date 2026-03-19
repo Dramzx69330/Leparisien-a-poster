@@ -234,103 +234,73 @@ const ArticleDetail = () => {
                 </div>
               </div>
             ) : article.content ? (
-              <>
-                <div className="prose prose-lg max-w-none mb-8 article-content">
-                  <style>{`
-                    .article-content .intro {
-                      font-size: 1.125rem;
-                      line-height: 1.8;
-                      color: #374151;
-                      margin-bottom: 1.5rem;
-                    }
-                    .article-content .author {
-                      font-size: 0.95rem;
-                      color: #6b7280;
-                      margin-bottom: 2rem;
-                      padding-bottom: 1rem;
-                      border-bottom: 1px solid #e5e7eb;
-                    }
-                    .article-content .question {
-                      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-                      border-left: 4px solid #009EE2;
-                      padding: 1rem 1.5rem;
-                      margin: 2rem 0 1rem 0;
-                      border-radius: 0 8px 8px 0;
-                      font-size: 1.05rem;
-                      font-weight: 600;
-                      color: #0369a1;
-                    }
-                    .article-content .question .journalist {
-                      color: #009EE2;
-                      font-weight: 700;
-                      margin-right: 0.5rem;
-                    }
-                    .article-content .answer {
-                      font-size: 1.05rem;
-                      line-height: 1.8;
-                      color: #1f2937;
-                      margin-bottom: 0.75rem;
-                    }
-                    .article-content .answer strong {
-                      color: #111827;
-                      font-weight: 600;
-                    }
-                    .article-content .answer em {
-                      color: #6b7280;
-                      font-style: italic;
-                    }
-                    .article-content .conclusion {
-                      color: #6b7280;
-                      font-size: 0.95rem;
-                      margin-top: 2rem;
-                      font-style: italic;
-                    }
-                    .article-content .about {
-                      background: #f3f4f6;
-                      padding: 1.5rem;
-                      margin-top: 2rem;
-                      border-radius: 8px;
-                      font-size: 0.95rem;
-                      color: #4b5563;
-                      line-height: 1.6;
-                    }
-                    .article-content .about strong {
-                      color: #111827;
-                      display: block;
-                      margin-bottom: 0.5rem;
-                    }
-                  `}</style>
-                  <div dangerouslySetInnerHTML={{ __html: article.content }} />
-                </div>
-
-                {/* Avertissement si contenu tronqué */}
-                {article.content && /\[\+\d+\s*chars?\]/.test(article.content) && article.url && (
-                  <div className="bg-gradient-to-r from-blue-50 to-sky-50 border-l-4 border-blue-500 p-5 mb-8 rounded-r-lg shadow-sm">
-                    <div className="flex items-start gap-3">
-                      <svg className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <div className="flex-1">
-                        <p className="text-sm font-semibold text-blue-800 mb-2">
-                          Aperçu de l'article
-                        </p>
-                        <p className="text-xs text-blue-700 mb-3">
-                          Cet article est un extrait. Pour lire l'article complet, visitez le site source.
-                        </p>
-                        <a
-                          href={article.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
-                        >
-                          <ExternalLink size={16} />
-                          Lire l'article complet sur {article.source}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </>
+              <div className="prose prose-lg max-w-none mb-8 article-content">
+                <style>{`
+                  .article-content .intro {
+                    font-size: 1.125rem;
+                    line-height: 1.8;
+                    color: #374151;
+                    margin-bottom: 1.5rem;
+                  }
+                  .article-content .author {
+                    font-size: 0.95rem;
+                    color: #6b7280;
+                    margin-bottom: 2rem;
+                    padding-bottom: 1rem;
+                    border-bottom: 1px solid #e5e7eb;
+                  }
+                  .article-content .question {
+                    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+                    border-left: 4px solid #009EE2;
+                    padding: 1rem 1.5rem;
+                    margin: 2rem 0 1rem 0;
+                    border-radius: 0 8px 8px 0;
+                    font-size: 1.05rem;
+                    font-weight: 600;
+                    color: #0369a1;
+                  }
+                  .article-content .question .journalist {
+                    color: #009EE2;
+                    font-weight: 700;
+                    margin-right: 0.5rem;
+                  }
+                  .article-content .answer {
+                    font-size: 1.05rem;
+                    line-height: 1.8;
+                    color: #1f2937;
+                    margin-bottom: 0.75rem;
+                  }
+                  .article-content .answer strong {
+                    color: #111827;
+                    font-weight: 600;
+                  }
+                  .article-content .answer em {
+                    color: #6b7280;
+                    font-style: italic;
+                  }
+                  .article-content .conclusion {
+                    color: #6b7280;
+                    font-size: 0.95rem;
+                    margin-top: 2rem;
+                    font-style: italic;
+                  }
+                  .article-content .about {
+                    background: #f3f4f6;
+                    padding: 1.5rem;
+                    margin-top: 2rem;
+                    border-radius: 8px;
+                    font-size: 0.95rem;
+                    color: #4b5563;
+                    line-height: 1.6;
+                  }
+                  .article-content .about strong {
+                    color: #111827;
+                    display: block;
+                    margin-bottom: 0.5rem;
+                  }
+                `}</style>
+                <div dangerouslySetInnerHTML={{ __html: article.content }} />
+              </div>
             ) : null}
 
             {/* Note sur l'extrait */}
