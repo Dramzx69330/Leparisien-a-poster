@@ -139,13 +139,9 @@ const ArticleDetail = () => {
               )}
               <button
                 onClick={() => {
-                  if (navigator.share) {
-                    navigator.share({
-                      title: article.title,
-                      text: article.excerpt,
-                      url: window.location.href
-                    });
-                  }
+                  const url = window.location.href;
+                  const message = `Lien de l'article : ${url}\n\nVous pouvez copier ce lien pour le partager.`;
+                  alert(message);
                 }}
                 className="flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors ml-auto"
               >
