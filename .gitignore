@@ -93,3 +93,7 @@ agenthub/agents/youtube/db
 !backend/data/
 !backend/data/articles.json
 !backend/data/README.md
+-e 
+# Environment files
+*.env
+*.env.*
